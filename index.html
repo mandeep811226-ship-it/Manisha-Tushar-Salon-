@@ -1,434 +1,1156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manisha Tushar — Hero</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manisha Tushar — Atelier</title>
 
-<!-- Fonts: Bodoni Moda (Dior-register display serif), General Sans (neutral UI grotesk via Fontshare), IBM Plex Mono (instrument label) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" />
 
-<!-- Three.js r128 — vanilla, not React Three Fiber. R3F needs a JSX build pipeline (its reconciler compiles
-     through a bundler) which this static preview can't run. This is the same WebGL output R3F would produce,
-     without the layer that can't execute here. Said plainly rather than silently swapped. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js">
+    </script>
 
-<style>
-:root{
-  --obsidian-950:#0A0908;
-  --obsidian-900:#141210;
-  --obsidian-800:#211D19;
-  --bone-50:#F6F2EA;
-  --bronze-500:#9C7A4A;
-  --bronze-300:#C7A876;
-  --oxblood-600:#5C1B22;
-  --steel-400:#8B9096;
-  --fg-dim:rgba(246,242,234,0.62);
-  --ease-marque:cubic-bezier(.19,1,.22,1);
-  --display:'Bodoni Moda', 'Times New Roman', serif;
-  --sans:'General Sans','Helvetica Neue',sans-serif;
-  --mono:'IBM Plex Mono', monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{background:var(--obsidian-950);}
-body{
-  background:var(--obsidian-950);
-  color:var(--bone-50);
-  font-family:var(--sans);
-  overflow-x:hidden;
-  cursor:default;
-}
-::selection{background:var(--bronze-500);color:var(--obsidian-950);}
-a{color:inherit;text-decoration:none;}
-button{font-family:inherit;cursor:pointer;}
+    <style>
+        /* ===== MERGED ROOT ===== */
+        :root {
+            --obsidian-950: #0A0908;
+            --obsidian-900: #141210;
+            --obsidian-800: #211D19;
+            --bone-50: #F6F2EA;
+            --bronze-500: #9C7A4A;
+            --bronze-300: #C7A876;
+            --oxblood-600: #5C1B22;
+            --steel-400: #8B9096;
+            --fg-dim: rgba(246, 242, 234, 0.68);
+            --ease-marque: cubic-bezier(.19, 1, .22, 1);
+            --display: 'Bodoni Moda', 'Times New Roman', serif;
+            --sans: 'General Sans', 'Helvetica Neue', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
 
-/* ===== Ambient animated background gradient ===== */
-.bg-ambient{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(48% 38% at 28% 22%, rgba(156,122,74,0.16) 0%, transparent 70%),
-    radial-gradient(40% 34% at 76% 68%, rgba(92,27,34,0.10) 0%, transparent 72%),
-    radial-gradient(120% 90% at 50% 100%, var(--obsidian-900) 0%, var(--obsidian-950) 60%);
-  animation:ambientDrift 22s ease-in-out infinite alternate;
-}
-@keyframes ambientDrift{
-  0%{background-position:0% 0%, 0% 0%, 0% 0%;}
-  100%{background-position:6% 4%, -6% -4%, 0% 0%;}
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            background: var(--obsidian-950);
+        }
+        body {
+            background: var(--obsidian-950);
+            color: var(--bone-50);
+            font-family: var(--sans);
+            overflow-x: hidden;
+            cursor: default;
+        }
+        ::selection {
+            background: var(--bronze-500);
+            color: var(--obsidian-950);
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .wrap {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 3;
+        }
+        @media(max-width:640px) {
+            .wrap {
+                padding: 0 20px;
+            }
+        }
 
-/* ===== Film grain ===== */
-.grain{
-  position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
+        /* ===== AMBIENT BG (hero) ===== */
+        .bg-ambient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(48% 38% at 28% 22%, rgba(156, 122, 74, 0.16) 0%, transparent 70%),
+                radial-gradient(40% 34% at 76% 68%, rgba(92, 27, 34, 0.10) 0%, transparent 72%),
+                radial-gradient(120% 90% at 50% 100%, var(--obsidian-900) 0%, var(--obsidian-950) 60%);
+            animation: ambientDrift 22s ease-in-out infinite alternate;
+        }
+        @keyframes ambientDrift {
+            0% {
+                background-position: 0% 0%, 0% 0%, 0% 0%;
+            }
+            100% {
+                background-position: 6% 4%, -6% -4%, 0% 0%;
+            }
+        }
 
-/* ===== WebGL particle field ===== */
-#webgl-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;}
+        /* ===== FILM GRAIN ===== */
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 6;
+            pointer-events: none;
+            opacity: .035;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        }
 
-/* ===== Cursor glow (desktop only) ===== */
-.cursor-glow{
-  position:fixed;top:0;left:0;width:340px;height:340px;z-index:3;pointer-events:none;
-  background:radial-gradient(circle, rgba(199,168,118,0.10) 0%, transparent 68%);
-  transform:translate(-50%,-50%);opacity:0;transition:opacity .4s ease;
-}
-@media(hover:none){.cursor-glow{display:none;}}
+        /* ===== WEBGL CANVAS ===== */
+        #webgl-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-/* ===== Hero pin stage ===== */
-.hero-pin{position:relative;height:100vh;overflow:hidden;}
-.hero-stage{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        /* ===== CURSOR GLOW ===== */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 340px;
+            height: 340px;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(199, 168, 118, 0.10) 0%, transparent 68%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity .4s ease;
+        }
+        @media(hover:none) {
+            .cursor-glow {
+                display: none;
+            }
+        }
 
-/* Bronze Thread — continuity device, runs through the whole journey */
-.bronze-thread{
-  position:absolute;top:0;bottom:0;left:50%;width:1px;z-index:7;
-  background:rgba(156,122,74,0.14);transform:translateX(-50%);
-}
-.thread-fill{
-  position:absolute;top:0;left:0;width:100%;height:0%;
-  background:linear-gradient(to bottom, var(--bronze-300), var(--bronze-500) 70%, transparent);
-  box-shadow:0 0 12px rgba(199,168,118,.5);
-}
+        /* ===== HERO PIN ===== */
+        .hero-pin {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hero-stage {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-/* Threshold doors — open once on load, revealing the room */
-.door{position:absolute;top:0;bottom:0;width:50%;z-index:20;background:var(--obsidian-950);}
-.door-l{left:0;border-right:1px solid rgba(199,168,118,0.18);box-shadow:inset -40px 0 60px -30px rgba(0,0,0,.6);}
-.door-r{right:0;border-left:1px solid rgba(199,168,118,0.18);box-shadow:inset 40px 0 60px -30px rgba(0,0,0,.6);}
+        /* Bronze Thread — continuity device */
+        .bronze-thread {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            z-index: 7;
+            background: rgba(156, 122, 74, 0.14);
+            transform: translateX(-50%);
+        }
+        .thread-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to bottom, var(--bronze-300), var(--bronze-500) 70%, transparent);
+            box-shadow: 0 0 12px rgba(199, 168, 118, .5);
+        }
 
-/* Ambient glow behind headline */
-.hero-glow{
-  position:absolute;left:50%;top:46%;width:min(70vw,900px);height:min(70vw,900px);
-  transform:translate(-50%,-50%);z-index:2;pointer-events:none;
-  background:radial-gradient(circle, rgba(199,168,118,0.22) 0%, rgba(199,168,118,0.06) 45%, transparent 72%);
-  opacity:0;
-}
+        /* Doors */
+        .door {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            z-index: 20;
+            background: var(--obsidian-950);
+        }
+        .door-l {
+            left: 0;
+            border-right: 1px solid rgba(199, 168, 118, 0.18);
+            box-shadow: inset -40px 0 60px -30px rgba(0, 0, 0, .6);
+        }
+        .door-r {
+            right: 0;
+            border-left: 1px solid rgba(199, 168, 118, 0.18);
+            box-shadow: inset 40px 0 60px -30px rgba(0, 0, 0, .6);
+        }
 
-/* ===== Hero content ===== */
-.hero-content{position:relative;z-index:10;text-align:center;padding:0 24px;max-width:920px;}
-.eyebrow{
-  font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--bronze-300);display:inline-flex;align-items:center;gap:12px;opacity:0;
-}
-.eyebrow::before,.eyebrow::after{content:'';width:20px;height:1px;background:var(--bronze-500);}
+        /* Hero glow */
+        .hero-glow {
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            width: min(70vw, 900px);
+            height: min(70vw, 900px);
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(199, 168, 118, 0.22) 0%, rgba(199, 168, 118, 0.06) 45%, transparent 72%);
+            opacity: 0;
+        }
 
-.headline{
-  font-family:var(--display);font-weight:400;letter-spacing:-0.01em;line-height:1.02;
-  font-size:clamp(42px,7.6vw,104px);margin-top:26px;position:relative;
-}
-.headline .row{overflow:hidden;display:block;}
-.headline .word{display:inline-block;transform:translateY(112%);will-change:transform;}
-.headline em{font-style:italic;color:var(--bronze-300);}
-.sweep{
-  position:absolute;top:0;left:-30%;width:22%;height:100%;
-  background:linear-gradient(100deg, transparent, rgba(246,242,234,.55) 45%, rgba(199,168,118,.9) 52%, transparent 80%);
-  mix-blend-mode:overlay;transform:skewX(-16deg);opacity:0;pointer-events:none;
-}
+        /* Hero content */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 24px;
+            max-width: 920px;
+        }
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--bronze-300);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+        }
+        .eyebrow::before,
+        .eyebrow::after {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--bronze-500);
+        }
 
-.subhead{
-  font-family:var(--sans);font-weight:400;font-size:clamp(15px,1.6vw,18px);line-height:1.75;
-  color:var(--fg-dim);max-width:480px;margin:24px auto 0;opacity:0;transform:translateY(14px);
-}
+        .headline {
+            font-family: var(--display);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.02;
+            font-size: clamp(42px, 7.6vw, 104px);
+            margin-top: 26px;
+            position: relative;
+        }
+        .headline .row {
+            overflow: hidden;
+            display: block;
+        }
+        .headline .word {
+            display: inline-block;
+            transform: translateY(112%);
+            will-change: transform;
+        }
+        .headline em {
+            font-style: italic;
+            color: var(--bronze-300);
+        }
+        .sweep {
+            position: absolute;
+            top: 0;
+            left: -30%;
+            width: 22%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(246, 242, 234, .55) 45%, rgba(199, 168, 118, .9) 52%, transparent 80%);
+            mix-blend-mode: overlay;
+            transform: skewX(-16deg);
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.cta-row{display:flex;gap:16px;justify-content:center;margin-top:42px;flex-wrap:wrap;opacity:0;transform:translateY(14px);}
-.btn{
-  position:relative;display:inline-flex;align-items:center;gap:10px;isolation:isolate;
-  padding:15px 30px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-family:var(--mono);
-  border:1px solid var(--bronze-500);border-radius:2px;color:var(--bone-50);overflow:hidden;background:transparent;
-}
-.btn::before{
-  content:'';position:absolute;inset:0;background:var(--bronze-500);z-index:-1;
-  transform:translateX(-101%);transition:transform .5s var(--ease-marque);
-}
-.btn:hover{color:var(--obsidian-950);}
-.btn:hover::before{transform:translateX(0);}
-.btn.solid{background:var(--bronze-500);border-color:var(--bronze-500);color:var(--obsidian-950);}
-.btn.solid::before{background:var(--bone-50);}
-.btn.solid:hover{color:var(--obsidian-950);}
+        .subhead {
+            font-family: var(--sans);
+            font-weight: 400;
+            font-size: clamp(15px, 1.6vw, 18px);
+            line-height: 1.75;
+            color: var(--fg-dim);
+            max-width: 480px;
+            margin: 24px auto 0;
+            opacity: 0;
+            transform: translateY(14px);
+        }
 
-.scroll-cue{
-  position:absolute;bottom:44px;left:50%;transform:translateX(-50%);z-index:10;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--bronze-300);opacity:0;
-}
-.scroll-cue .cue-bar{width:1px;height:40px;background:linear-gradient(to bottom, var(--bronze-500), transparent);position:relative;overflow:hidden;}
-.scroll-cue .cue-bar i{position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--bronze-300);animation:dropline 1.9s ease-in-out infinite;}
-@keyframes dropline{0%{top:-100%;}60%{top:100%;}100%{top:100%;}}
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 42px;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(14px);
+        }
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            isolation: isolate;
+            padding: 15px 30px;
+            font-size: 12px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            font-family: var(--mono);
+            border: 1px solid var(--bronze-500);
+            border-radius: 2px;
+            color: var(--bone-50);
+            overflow: hidden;
+            background: transparent;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--bronze-500);
+            z-index: -1;
+            transform: translateX(-101%);
+            transition: transform .5s var(--ease-marque);
+        }
+        .btn:hover {
+            color: var(--obsidian-950);
+        }
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+        .btn.solid {
+            background: var(--bronze-500);
+            border-color: var(--bronze-500);
+            color: var(--obsidian-950);
+        }
+        .btn.solid::before {
+            background: var(--bone-50);
+        }
+        .btn.solid:hover {
+            color: var(--obsidian-950);
+        }
 
-/* ===== Chapter-two preview, so the pin release reads as arrival, not a dead end ===== */
-.next-preview{
-  position:relative;z-index:10;height:70vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(to bottom, var(--obsidian-950), var(--obsidian-900));
-}
-.next-preview .next-label{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--fg-dim);}
+        .scroll-cue {
+            position: absolute;
+            bottom: 44px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: .24em;
+            color: var(--bronze-300);
+            opacity: 0;
+        }
+        .scroll-cue .cue-bar {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--bronze-500), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-cue .cue-bar i {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bronze-300);
+            animation: dropline 1.9s ease-in-out infinite;
+        }
+        @keyframes dropline {
+            0% {
+                top: -100%;
+            }
+            60% {
+                top: 100%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
 
-@media(max-width:640px){
-  .hero-glow{width:130vw;height:130vw;}
-  .btn{padding:14px 22px;}
-}
+        /* ===== NEXT PREVIEW (bridge) ===== */
+        .next-preview {
+            position: relative;
+            z-index: 10;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            background: linear-gradient(to bottom, var(--obsidian-950), var(--obsidian-900));
+        }
+        .next-preview .next-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .3em;
+            color: var(--fg-dim);
+            text-transform: uppercase;
+        }
+        .next-preview .next-title {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 22px;
+            color: var(--bronze-300);
+        }
 
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
-}
-</style>
+        /* ===== ARRIVAL STRIP (from reception) ===== */
+        .arrival-strip {
+            position: relative;
+            height: 14vh;
+            background: linear-gradient(to bottom, var(--obsidian-950), var(--obsidian-900));
+            overflow: hidden;
+        }
+        .arrival-strip .thread-in {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, var(--bronze-300), var(--bronze-500));
+            box-shadow: 0 0 12px rgba(199, 168, 118, .5);
+        }
+
+        /* ===== RECEPTION SECTION ===== */
+        .reception {
+            position: relative;
+            padding: 60px 0 180px;
+            overflow: hidden;
+        }
+
+        .reception-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .reception-bg img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(.25) sepia(.18) saturate(1.3) brightness(.4) contrast(1.08);
+            transform: scale(1.08);
+            will-change: transform;
+        }
+        .reception-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, var(--obsidian-950) 0%, rgba(10, 9, 8, 0.55) 18%, rgba(10, 9, 8, 0.72) 60%, var(--obsidian-950) 100%),
+                radial-gradient(55% 45% at 50% 8%, rgba(156, 122, 74, 0.20) 0%, transparent 70%);
+        }
+
+        .chapter-tag {
+            position: relative;
+            z-index: 3;
+            margin-bottom: 120px;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--bronze-300);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 40px;
+        }
+        .chapter-tag span {
+            color: var(--fg-dim);
+            letter-spacing: .04em;
+            text-transform: none;
+            font-size: 12px;
+            max-width: 260px;
+        }
+
+        .reception-grid {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: 64px;
+            align-items: start;
+        }
+        @media(max-width:900px) {
+            .reception-grid {
+                grid-template-columns: 1fr;
+                gap: 80px;
+            }
+            .chapter-tag {
+                margin-bottom: 60px;
+            }
+        }
+
+        .reception-copy .eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--bronze-300);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 1;
+        }
+        .reception-copy .eyebrow::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--bronze-500);
+        }
+        .reception-copy .eyebrow::after {
+            display: none;
+        }
+
+        .reception-headline {
+            font-family: var(--display);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.08;
+            font-size: clamp(34px, 5vw, 58px);
+            margin-top: 22px;
+            max-width: 9.5em;
+            text-shadow: 0 4px 32px rgba(0, 0, 0, .5);
+        }
+        .reception-headline em {
+            font-style: italic;
+            color: var(--bronze-300);
+        }
+
+        .reception-lede {
+            font-size: clamp(16px, 1.4vw, 18px);
+            line-height: 1.8;
+            color: var(--fg-dim);
+            max-width: 520px;
+            margin-top: 26px;
+        }
+        .reception-lede strong {
+            color: var(--bone-50);
+            font-weight: 500;
+        }
+
+        .reception-meta {
+            margin-top: 36px;
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 19px;
+            color: var(--bone-50);
+            border-left: 1px solid var(--bronze-500);
+            padding-left: 20px;
+        }
+
+        /* ===== DIRECTORY ===== */
+        .reception-directory {
+            position: relative;
+            height: 460px;
+        }
+        .fork-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .fork-path {
+            fill: none;
+            stroke: var(--bronze-500);
+            stroke-width: .35;
+            stroke-linecap: round;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .fork-label {
+            position: absolute;
+            transform: translate(-50%, 0);
+            text-align: center;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 104px;
+        }
+        .fork-label .thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(199, 168, 118, 0.5);
+            box-shadow: 0 0 0 4px rgba(10, 9, 8, 0.4), 0 8px 24px rgba(0, 0, 0, .5);
+        }
+        .fork-label .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(.35) brightness(.72) saturate(1.15);
+            transition: filter .5s var(--ease-marque), transform .6s var(--ease-marque);
+            transform: scale(1.12);
+        }
+        .fork-label:hover .thumb img {
+            filter: grayscale(0) brightness(.95) saturate(1.2);
+            transform: scale(1.22);
+        }
+        .fork-label .room-name {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--bone-50);
+        }
+        .fork-label .room-desc {
+            font-family: var(--sans);
+            font-size: 11.5px;
+            color: var(--fg-dim);
+        }
+
+        .thread-continue {
+            position: absolute;
+            left: 10%;
+            top: 100%;
+            width: 1px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--bronze-500), transparent);
+            transform: translateX(-50%);
+        }
+
+        @media(max-width:900px) {
+            .reception-directory {
+                height: auto;
+            }
+            .fork-svg {
+                display: none;
+            }
+            .reception-directory {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 28px 12px;
+            }
+            .fork-label {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                transform: none !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* ===== REVEAL UTILITY ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        /* ===== RESPONSIVE TWEAKS ===== */
+        @media(max-width:640px) {
+            .hero-glow {
+                width: 130vw;
+                height: 130vw;
+            }
+            .btn {
+                padding: 14px 22px;
+            }
+            .reception {
+                padding: 40px 0 120px;
+            }
+            .chapter-tag {
+                margin-bottom: 60px;
+                padding-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="bg-ambient" aria-hidden="true"></div>
-<canvas id="webgl-canvas" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+    <!-- ===== AMBIENT BG ===== -->
+    <div class="bg-ambient" aria-hidden="true"></div>
 
-<section class="hero-pin" id="heroPin">
-  <div class="hero-stage" id="heroStage">
+    <!-- ===== WEBGL CANVAS ===== -->
+    <canvas id="webgl-canvas" aria-hidden="true"></canvas>
 
-    <div class="bronze-thread" aria-hidden="true"><i class="thread-fill" id="threadFill"></i></div>
-    <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+    <!-- ===== GRAIN ===== -->
+    <div class="grain" aria-hidden="true"></div>
 
-    <div class="hero-content" id="heroContent">
-      <div class="eyebrow" id="eyebrow">An Atelier in Dadabari, Kota</div>
-      <h1 class="headline" id="headline">
-        <span class="row"><span class="word">Where</span> <span class="word">beauty</span></span>
-        <span class="row"><span class="word">becomes</span> <span class="word"><em>art.</em></span></span>
-        <span class="sweep" id="sweep"></span>
-      </h1>
-      <p class="subhead" id="subhead">Kota's atelier for hair, bridal artistry and nail design — and the academy where the next generation of stylists is trained. One address, every occasion, no compromise.</p>
-      <div class="cta-row" id="ctaRow">
-        <a href="https://wa.me/917014415988" class="btn solid magnetic"><span>Book an Appointment</span></a>
-        <a href="#academy" class="btn magnetic"><span>Explore the Academy</span></a>
-      </div>
+    <!-- ===== CURSOR GLOW ===== -->
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <!-- ============================================================ -->
+    <!-- HERO SECTION                                                 -->
+    <!-- ============================================================ -->
+    <section class="hero-pin" id="heroPin">
+        <div class="hero-stage" id="heroStage">
+
+            <div class="bronze-thread" aria-hidden="true">
+                <i class="thread-fill" id="threadFill"></i>
+            </div>
+            <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+
+            <div class="hero-content" id="heroContent">
+                <div class="eyebrow" id="eyebrow">An Atelier in Dadabari, Kota</div>
+                <h1 class="headline" id="headline">
+                    <span class="row"><span class="word">Where</span> <span class="word">beauty</span></span>
+                    <span class="row"><span class="word">becomes</span> <span class="word"><em>art.</em></span></span>
+                    <span class="sweep" id="sweep"></span>
+                </h1>
+                <p class="subhead" id="subhead">Kota's atelier for hair, bridal artistry and nail design — and the academy where the next generation of stylists is trained. One address, every occasion, no compromise.</p>
+                <div class="cta-row" id="ctaRow">
+                    <a href="https://wa.me/917014415988" class="btn solid magnetic"><span>Book an Appointment</span></a>
+                    <a href="#academy" class="btn magnetic"><span>Explore the Academy</span></a>
+                </div>
+            </div>
+
+            <div class="door door-l" id="doorL" aria-hidden="true"></div>
+            <div class="door door-r" id="doorR" aria-hidden="true"></div>
+
+            <div class="scroll-cue" id="scrollCue">
+                <span>SCROLL</span>
+                <div class="cue-bar"><i></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEXT PREVIEW — BRIDGE TO RECEPTION ===== -->
+    <section class="next-preview">
+        <div class="next-label">RECEPTION — CHAPTER 02</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ARRIVAL STRIP — thread continues from hero                   -->
+    <!-- ============================================================ -->
+    <div class="arrival-strip">
+        <div class="thread-in"></div>
     </div>
 
-    <div class="door door-l" id="doorL" aria-hidden="true"></div>
-    <div class="door door-r" id="doorR" aria-hidden="true"></div>
+    <!-- ============================================================ -->
+    <!-- RECEPTION SECTION                                            -->
+    <!-- ============================================================ -->
+    <section class="reception" id="reception">
+        <div class="reception-bg" aria-hidden="true">
+            <img id="receptionBg" src="https://images.unsplash.com/photo-1758448093806-88b2089068ab?q=80&w=1800&auto=format&fit=crop" alt="" />
+        </div>
 
-    <div class="scroll-cue" id="scrollCue"><span>SCROLL</span><div class="cue-bar"><i></i></div></div>
-  </div>
-</section>
+        <div class="wrap">
+            <div class="chapter-tag">02 — RECEPTION<span>You're greeted before you're sold anything.</span></div>
 
-<section class="next-preview">
-  <div class="next-label">RECEPTION — CHAPTER 02</div>
-</section>
+            <div class="reception-grid">
+                <div class="reception-copy">
+                    <div class="eyebrow reveal">You're Expected</div>
+                    <h2 class="reception-headline reveal">A seat, <em>saved</em> for you.</h2>
+                    <p class="reception-lede reveal">What began as a single chair in Dadabari is now Kota's most-reviewed atelier — <strong>4.8★</strong> across 521 visits, each one starting right here.</p>
+                    <p class="reception-meta reveal">Five rooms wait beyond this one. Where would you like to begin?</p>
+                </div>
 
-<script>
-(function(){
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isTouch = window.matchMedia('(hover: none)').matches;
-  var libsOk = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof THREE !== 'undefined');
+                <div class="reception-directory" id="directory">
+                    <svg class="fork-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path class="fork-path" id="p0" d="M50,0 Q30,45 10,88"></path>
+                        <path class="fork-path" id="p1" d="M50,0 Q40,45 30,88"></path>
+                        <path class="fork-path" id="p2" d="M50,0 Q50,45 50,88"></path>
+                        <path class="fork-path" id="p3" d="M50,0 Q60,45 70,88"></path>
+                        <path class="fork-path" id="p4" d="M50,0 Q70,45 90,88"></path>
+                    </svg>
 
-  /* ---------- Absolute safety net: if any CDN fails, reveal everything statically ---------- */
-  function staticFallback(){
-    document.getElementById('eyebrow').style.opacity = 1;
-    document.querySelectorAll('.word').forEach(function(w){ w.style.transform = 'translateY(0)'; });
-    document.getElementById('subhead').style.opacity = 1;
-    document.getElementById('subhead').style.transform = 'none';
-    document.getElementById('ctaRow').style.opacity = 1;
-    document.getElementById('ctaRow').style.transform = 'none';
-    document.getElementById('scrollCue').style.opacity = 1;
-    document.getElementById('heroGlow').style.opacity = 1;
-    document.getElementById('doorL').style.transform = 'translateX(-100%)';
-    document.getElementById('doorR').style.transform = 'translateX(100%)';
-    document.getElementById('threadFill').style.height = '100%';
-  }
+                    <div class="fork-label" id="l0" style="left:10%;top:88%;">
+                        <div class="thumb"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=400&auto=format&fit=crop" alt="Hair styling in progress" loading="lazy" /></div>
+                        <span class="room-name">Hair Studio</span><span class="room-desc">Colour &amp; cut</span>
+                        <div class="thread-continue" id="threadContinue"></div>
+                    </div>
+                    <div class="fork-label" id="l1" style="left:30%;top:88%;">
+                        <div class="thumb"><img src="https://images.unsplash.com/photo-1673413350047-ea5c0fd58c9e?q=80&w=400&auto=format&fit=crop" alt="Bridal makeup detail" loading="lazy" /></div>
+                        <span class="room-name">Bridal Room</span><span class="room-desc">HD &amp; airbrush</span>
+                    </div>
+                    <div class="fork-label" id="l2" style="left:50%;top:88%;">
+                        <div class="thumb"><img src="https://images.unsplash.com/photo-1571290274554-6a2eaa771e5f?q=80&w=400&auto=format&fit=crop" alt="Nail art detail" loading="lazy" /></div>
+                        <span class="room-name">Nail Studio</span><span class="room-desc">Art &amp; extensions</span>
+                    </div>
+                    <div class="fork-label" id="l3" style="left:70%;top:88%;">
+                        <div class="thumb"><img src="https://images.unsplash.com/photo-1706795033728-9232ef548a16?q=80&w=400&auto=format&fit=crop" alt="Facial spa treatment" loading="lazy" /></div>
+                        <span class="room-name">Spa</span><span class="room-desc">Skin &amp; touch</span>
+                    </div>
+                    <div class="fork-label" id="l4" style="left:90%;top:88%;">
+                        <div class="thumb"><img src="https://images.unsplash.com/photo-1637777269308-6a072f24e8a4?q=80&w=400&auto=format&fit=crop" alt="Academy training floor" loading="lazy" /></div>
+                        <span class="room-name">Academy</span><span class="room-desc">Admissions open</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  if (!libsOk){ staticFallback(); return; }
+    <!-- ===== NEXT PREVIEW — CHAPTER 03 ===== -->
+    <section class="next-preview">
+        <div class="next-label">03 — HAIR STUDIO</div>
+        <div class="next-title">Craft, caught mid-motion.</div>
+    </section>
 
-  gsap.registerPlugin(ScrollTrigger);
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT — MERGED                                          -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
 
-  /* ---------- Lenis smooth scroll, with graceful no-op fallback ---------- */
-  var lenis = null;
-  if (!reduceMotion && typeof Lenis !== 'undefined'){
-    try{
-      lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    }catch(e){ lenis = null; }
-  }
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var isTouch = window.matchMedia('(hover: none)').matches;
+            var libsOk = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof THREE !==
+            'undefined');
 
-  /* ---------- Three.js particle field ---------- */
-  var canvas = document.getElementById('webgl-canvas');
-  var renderer, scene, camera, particles, mouseX = 0, mouseY = 0, targetRotX = 0, targetRotY = 0;
-  var scrollProgress = 0;
+            /* ---------- STATIC FALLBACK ---------- */
+            function staticFallback() {
+                // Hero
+                var eyebrow = document.getElementById('eyebrow');
+                if (eyebrow) eyebrow.style.opacity = 1;
+                document.querySelectorAll('.word').forEach(function(w) {
+                    w.style.transform = 'translateY(0)';
+                });
+                var subhead = document.getElementById('subhead');
+                if (subhead) { subhead.style.opacity = 1;
+                    subhead.style.transform = 'none'; }
+                var ctaRow = document.getElementById('ctaRow');
+                if (ctaRow) { ctaRow.style.opacity = 1;
+                    ctaRow.style.transform = 'none'; }
+                var scrollCue = document.getElementById('scrollCue');
+                if (scrollCue) scrollCue.style.opacity = 1;
+                var heroGlow = document.getElementById('heroGlow');
+                if (heroGlow) heroGlow.style.opacity = 1;
+                var doorL = document.getElementById('doorL');
+                var doorR = document.getElementById('doorR');
+                if (doorL) doorL.style.transform = 'translateX(-100%)';
+                if (doorR) doorR.style.transform = 'translateX(100%)';
+                var threadFill = document.getElementById('threadFill');
+                if (threadFill) threadFill.style.height = '100%';
 
-  function initScene(){
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+                // Reception
+                document.querySelectorAll('.reveal').forEach(function(el) {
+                    el.style.opacity = 1;
+                    el.style.transform = 'none';
+                });
+                document.querySelectorAll('.fork-path').forEach(function(p) {
+                    p.style.strokeDashoffset = 0;
+                });
+                document.querySelectorAll('.fork-label').forEach(function(l) {
+                    l.style.opacity = 1;
+                });
+                var tc = document.getElementById('threadContinue');
+                if (tc) tc.style.height = '18vh';
+                var ti = document.querySelector('.thread-in');
+                if (ti) ti.style.transform = 'scaleY(1)';
+            }
 
-    scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0A0908, 0.045);
+            if (!libsOk) { staticFallback(); return; }
 
-    camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.z = 8;
+            gsap.registerPlugin(ScrollTrigger);
 
-    var count = window.innerWidth < 700 ? 700 : 1700;
-    var positions = new Float32Array(count * 3);
-    var colors = new Float32Array(count * 3);
-    var bronze = new THREE.Color(0xC7A876);
-    var bone = new THREE.Color(0xF6F2EA);
-    var steel = new THREE.Color(0x8B9096);
+            /* ---------- LENIS ---------- */
+            var lenis = null;
+            if (!reduceMotion && typeof Lenis !== 'undefined') {
+                try {
+                    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+                    lenis.on('scroll', ScrollTrigger.update);
+                    gsap.ticker.add(function(time) { if (lenis) lenis.raf(time * 1000); });
+                    gsap.ticker.lagSmoothing(0);
+                } catch (e) { lenis = null; }
+            }
 
-    for (var i = 0; i < count; i++){
-      positions[i*3]   = (Math.random() - 0.5) * 26;
-      positions[i*3+1] = (Math.random() - 0.5) * 16;
-      positions[i*3+2] = (Math.random()) * -60 + 10;
-      var c = Math.random();
-      var col = c < 0.55 ? bronze : (c < 0.85 ? bone : steel);
-      colors[i*3] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
-    }
+            if (reduceMotion) { staticFallback(); return; }
 
-    var geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            /* ================================================================ */
+            /* THREE.JS PARTICLE FIELD                                         */
+            /* ================================================================ */
+            var canvas = document.getElementById('webgl-canvas');
+            var renderer, scene, camera, particles, mouseX = 0,
+                mouseY = 0,
+                targetRotX = 0,
+                targetRotY = 0;
+            var scrollProgress = 0;
 
-    var mat = new THREE.PointsMaterial({
-      size: 0.05, sizeAttenuation: true, vertexColors: true,
-      transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending,
-      depthWrite: false, map: makeSprite()
-    });
+            function initScene() {
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.setSize(window.innerWidth, window.innerHeight);
 
-    particles = new THREE.Points(geo, mat);
-    scene.add(particles);
+                scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x0A0908, 0.045);
 
-    // A soft key-light sprite simulating a single warm light source, upper-left
-    var lightGeo = new THREE.PlaneGeometry(30, 30);
-    var lightMat = new THREE.MeshBasicMaterial({ map: makeGlow(), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.5 });
-    var lightPlane = new THREE.Mesh(lightGeo, lightMat);
-    lightPlane.position.set(-6, 5, -10);
-    scene.add(lightPlane);
-  }
+                camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+                camera.position.z = 8;
 
-  function makeSprite(){
-    var c = document.createElement('canvas'); c.width = c.height = 64;
-    var ctx = c.getContext('2d');
-    var g = ctx.createRadialGradient(32,32,0,32,32,32);
-    g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = g; ctx.fillRect(0,0,64,64);
-    return new THREE.CanvasTexture(c);
-  }
-  function makeGlow(){
-    var c = document.createElement('canvas'); c.width = c.height = 256;
-    var ctx = c.getContext('2d');
-    var g = ctx.createRadialGradient(128,128,0,128,128,128);
-    g.addColorStop(0, 'rgba(199,168,118,0.9)');
-    g.addColorStop(1, 'rgba(199,168,118,0)');
-    ctx.fillStyle = g; ctx.fillRect(0,0,256,256);
-    return new THREE.CanvasTexture(c);
-  }
+                var count = window.innerWidth < 700 ? 700 : 1700;
+                var positions = new Float32Array(count * 3);
+                var colors = new Float32Array(count * 3);
+                var bronze = new THREE.Color(0xC7A876);
+                var bone = new THREE.Color(0xF6F2EA);
+                var steel = new THREE.Color(0x8B9096);
 
-  function onResize(){
-    if (!renderer) return;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+                for (var i = 0; i < count; i++) {
+                    positions[i * 3] = (Math.random() - 0.5) * 26;
+                    positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+                    positions[i * 3 + 2] = (Math.random()) * -60 + 10;
+                    var c = Math.random();
+                    var col = c < 0.55 ? bronze : (c < 0.85 ? bone : steel);
+                    colors[i * 3] = col.r;
+                    colors[i * 3 + 1] = col.g;
+                    colors[i * 3 + 2] = col.b;
+                }
 
-  function animate(){
-    requestAnimationFrame(animate);
-    if (!reduceMotion){
-      targetRotX += (mouseY * 0.15 - targetRotX) * 0.04;
-      targetRotY += (mouseX * 0.2 - targetRotY) * 0.04;
-      particles.rotation.x = targetRotX * 0.06;
-      particles.rotation.y = targetRotY * 0.06;
-      particles.rotation.z += 0.0002;
-      camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.03;
-      camera.position.y += (-mouseY * 0.3 - camera.position.y) * 0.03;
-      // slow forward dolly, driven by scroll progress within the pinned range
-      var targetZ = 8 - scrollProgress * 26;
-      camera.position.z += (targetZ - camera.position.z) * 0.06;
-      camera.lookAt(0,0,-20);
-    }
-    renderer.render(scene, camera);
-  }
+                var geo = new THREE.BufferGeometry();
+                geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  initScene();
-  window.addEventListener('resize', onResize);
-  if (!reduceMotion){
-    window.addEventListener('mousemove', function(e){
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    }, { passive: true });
-  }
-  animate();
+                var mat = new THREE.PointsMaterial({
+                    size: 0.05,
+                    sizeAttenuation: true,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.75,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false,
+                    map: makeSprite()
+                });
 
-  /* ---------- Cursor glow ---------- */
-  if (!isTouch && !reduceMotion){
-    var glow = document.getElementById('cursorGlow');
-    window.addEventListener('mousemove', function(e){
-      gsap.to(glow, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power3.out' });
-      gsap.to(glow, { opacity: 1, duration: 0.4 });
-    }, { passive: true });
-  }
+                particles = new THREE.Points(geo, mat);
+                scene.add(particles);
 
-  /* ---------- Load sequence: doors open, headline reveals word by word ---------- */
-  var loadTl = gsap.timeline({ delay: 0.2 });
+                // Soft key-light
+                var lightGeo = new THREE.PlaneGeometry(30, 30);
+                var lightMat = new THREE.MeshBasicMaterial({
+                    map: makeGlow(),
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false,
+                    opacity: 0.5
+                });
+                var lightPlane = new THREE.Mesh(lightGeo, lightMat);
+                lightPlane.position.set(-6, 5, -10);
+                scene.add(lightPlane);
+            }
 
-  if (reduceMotion){
-    staticFallback();
-  } else {
-    loadTl
-      .to('#doorL', { xPercent: -100, duration: 1.1, ease: 'power4.inOut' })
-      .to('#doorR', { xPercent: 100, duration: 1.1, ease: 'power4.inOut' }, '<')
-      .to('#heroGlow', { opacity: 1, duration: 1.2, ease: 'power2.out' }, '-=.7')
-      .to('#eyebrow', { opacity: 1, duration: .6, ease: 'power2.out' }, '-=.5')
-      .to('.word', { y: '0%', duration: 1.1, stagger: 0.09, ease: 'power4.out' }, '-=.2')
-      .fromTo('#sweep', { opacity: 0, left: '-30%' }, { opacity: 1, left: '110%', duration: 1.0, ease: 'power2.inOut' }, '-=.7')
-      .to('#sweep', { opacity: 0, duration: .3 }, '-=.1')
-      .to('#subhead', { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, '-=.6')
-      .to('#ctaRow', { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, '-=.6')
-      .to('#scrollCue', { opacity: 1, duration: .6, ease: 'power2.out' }, '-=.4');
-  }
+            function makeSprite() {
+                var c = document.createElement('canvas');
+                c.width = c.height = 64;
+                var ctx = c.getContext('2d');
+                var g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+                g.addColorStop(0, 'rgba(255,255,255,1)');
+                g.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, 64, 64);
+                return new THREE.CanvasTexture(c);
+            }
 
-  /* ---------- Magnetic buttons ---------- */
-  document.querySelectorAll('.magnetic').forEach(function(btn){
-    if (isTouch || reduceMotion) return;
-    var qx = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
-    var qy = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
-    btn.addEventListener('mousemove', function(e){
-      var r = btn.getBoundingClientRect();
-      qx((e.clientX - r.left - r.width/2) * 0.35);
-      qy((e.clientY - r.top - r.height/2) * 0.5);
-    });
-    btn.addEventListener('mouseleave', function(){
-      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' });
-    });
-  });
+            function makeGlow() {
+                var c = document.createElement('canvas');
+                c.width = c.height = 256;
+                var ctx = c.getContext('2d');
+                var g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+                g.addColorStop(0, 'rgba(199,168,118,0.9)');
+                g.addColorStop(1, 'rgba(199,168,118,0)');
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, 256, 256);
+                return new THREE.CanvasTexture(c);
+            }
 
-  /* ---------- Pinned scroll: camera dolly, thread fill, exit choreography ---------- */
-  ScrollTrigger.create({
-    trigger: '#heroPin',
-    start: 'top top',
-    end: '+=180%',
-    pin: true,
-    scrub: 1,
-    onUpdate: function(self){
-      scrollProgress = self.progress;
-      document.getElementById('threadFill').style.height = (self.progress * 100) + '%';
+            function onResize() {
+                if (!renderer) return;
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
 
-      // last third of the pin: content recedes, glow flares once, then dims — passing through into Reception
-      var exitStart = 0.62;
-      if (self.progress > exitStart){
-        var t = (self.progress - exitStart) / (1 - exitStart);
-        gsap.set('#heroContent', { opacity: 1 - t, y: -t * 60, scale: 1 - t * 0.06 });
-        gsap.set('#heroGlow', { opacity: Math.max(0, 1 - t * 1.3), scale: 1 + t * 0.4 });
-        gsap.set('#scrollCue', { opacity: Math.max(0, 1 - t * 3) });
-      } else {
-        gsap.set('#heroContent', { opacity: 1, y: 0, scale: 1 });
-      }
-    }
-  });
+            function animate() {
+                requestAnimationFrame(animate);
+                if (!reduceMotion && particles) {
+                    targetRotX += (mouseY * 0.15 - targetRotX) * 0.04;
+                    targetRotY += (mouseX * 0.2 - targetRotY) * 0.04;
+                    particles.rotation.x = targetRotX * 0.06;
+                    particles.rotation.y = targetRotY * 0.06;
+                    particles.rotation.z += 0.0002;
+                    camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.03;
+                    camera.position.y += (-mouseY * 0.3 - camera.position.y) * 0.03;
+                    var targetZ = 8 - scrollProgress * 26;
+                    camera.position.z += (targetZ - camera.position.z) * 0.06;
+                    camera.lookAt(0, 0, -20);
+                }
+                if (renderer) renderer.render(scene, camera);
+            }
 
-  /* ---------- Absolute worst-case backstop ---------- */
-  setTimeout(function(){
-    if (document.getElementById('eyebrow').style.opacity !== '1'){ staticFallback(); }
-  }, 4000);
+            initScene();
+            window.addEventListener('resize', onResize);
+            if (!reduceMotion) {
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+                }, { passive: true });
+            }
+            animate();
 
-})();
-</script>
+            /* ---------- CURSOR GLOW ---------- */
+            if (!isTouch && !reduceMotion) {
+                var glow = document.getElementById('cursorGlow');
+                window.addEventListener('mousemove', function(e) {
+                    gsap.to(glow, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power3.out' });
+                    gsap.to(glow, { opacity: 1, duration: 0.4 });
+                }, { passive: true });
+            }
+
+            /* ================================================================ */
+            /* HERO LOAD SEQUENCE                                              */
+            /* ================================================================ */
+            var loadTl = gsap.timeline({ delay: 0.2 });
+
+            loadTl
+                .to('#doorL', { xPercent: -100, duration: 1.1, ease: 'power4.inOut' })
+                .to('#doorR', { xPercent: 100, duration: 1.1, ease: 'power4.inOut' }, '<')
+                .to('#heroGlow', { opacity: 1, duration: 1.2, ease: 'power2.out' }, '-=.7')
+                .to('#eyebrow', { opacity: 1, duration: .6, ease: 'power2.out' }, '-=.5')
+                .to('.word', { y: '0%', duration: 1.1, stagger: 0.09, ease: 'power4.out' }, '-=.2')
+                .fromTo('#sweep', { opacity: 0, left: '-30%' }, { opacity: 1, left: '110%', duration: 1.0,
+                    ease: 'power2.inOut' }, '-=.7')
+                .to('#sweep', { opacity: 0, duration: .3 }, '-=.1')
+                .to('#subhead', { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, '-=.6')
+                .to('#ctaRow', { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, '-=.6')
+                .to('#scrollCue', { opacity: 1, duration: .6, ease: 'power2.out' }, '-=.4');
+
+            /* ---------- MAGNETIC BUTTONS ---------- */
+            document.querySelectorAll('.magnetic').forEach(function(btn) {
+                if (isTouch || reduceMotion) return;
+                var qx = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
+                var qy = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
+                btn.addEventListener('mousemove', function(e) {
+                    var r = btn.getBoundingClientRect();
+                    qx((e.clientX - r.left - r.width / 2) * 0.35);
+                    qy((e.clientY - r.top - r.height / 2) * 0.5);
+                });
+                btn.addEventListener('mouseleave', function() {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' });
+                });
+            });
+
+            /* ---------- HERO PINNED SCROLL ---------- */
+            ScrollTrigger.create({
+                trigger: '#heroPin',
+                start: 'top top',
+                end: '+=180%',
+                pin: true,
+                scrub: 1,
+                onUpdate: function(self) {
+                    scrollProgress = self.progress;
+                    var tf = document.getElementById('threadFill');
+                    if (tf) tf.style.height = (self.progress * 100) + '%';
+
+                    var exitStart = 0.62;
+                    if (self.progress > exitStart) {
+                        var t = (self.progress - exitStart) / (1 - exitStart);
+                        gsap.set('#heroContent', { opacity: 1 - t, y: -t * 60, scale: 1 - t * 0.06 });
+                        gsap.set('#heroGlow', { opacity: Math.max(0, 1 - t * 1.3), scale: 1 + t * 0.4 });
+                        gsap.set('#scrollCue', { opacity: Math.max(0, 1 - t * 3) });
+                    } else {
+                        gsap.set('#heroContent', { opacity: 1, y: 0, scale: 1 });
+                    }
+                }
+            });
+
+            /* ================================================================ */
+            /* RECEPTION ANIMATIONS                                            */
+            /* ================================================================ */
+
+            /* ----- Copy reveals ----- */
+            gsap.utils.toArray('.reveal').forEach(function(el, i) {
+                gsap.to(el, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    delay: i * 0.08,
+                    scrollTrigger: { trigger: el, start: 'top 85%' }
+                });
+            });
+
+            /* ----- Thread arriving from hero ----- */
+            gsap.fromTo('.thread-in', { scaleY: 0 }, {
+                scaleY: 1,
+                transformOrigin: 'top',
+                duration: 1.2,
+                ease: 'power2.out',
+                scrollTrigger: { trigger: '.arrival-strip', start: 'top 90%' }
+            });
+
+            /* ----- Ken-Burns: reception bg breathes ----- */
+            gsap.fromTo('#receptionBg', { scale: 1.08, yPercent: -2 }, {
+                scale: 1.22,
+                yPercent: 2,
+                ease: 'none',
+                scrollTrigger: { trigger: '.reception', start: 'top bottom', end: 'bottom top', scrub: true }
+            });
+
+            /* ----- Directory: fork paths & labels ----- */
+            var paths = gsap.utils.toArray('.fork-path');
+            var labels = gsap.utils.toArray('.fork-label');
+            var isDesktop = window.innerWidth > 900;
+
+            if (isDesktop) {
+                ScrollTrigger.create({
+                    trigger: '#directory',
+                    start: 'top 75%',
+                    end: 'top 20%',
+                    scrub: 0.6,
+                    onUpdate: function(self) {
+                        var p = self.progress;
+                        paths.forEach(function(path, i) {
+                            var threshold = i * 0.14;
+                            var local = Math.max(0, Math.min(1, (p - threshold) / 0.5));
+                            path.style.strokeDashoffset = 200 - (200 * local);
+                        });
+                        labels.forEach(function(label, i) {
+                            var threshold = i * 0.14 + 0.25;
+                            var local = Math.max(0, Math.min(1, (p - threshold) / 0.3));
+                            label.style.opacity = local;
+                            label.style.transform = 'translate(-50%,' + (10 - local * 10) + 'px)';
+                        });
+                    }
+                });
+
+                gsap.to('#threadContinue', {
+                    height: '18vh',
+                    duration: 1,
+                    scrollTrigger: { trigger: '#l0', start: 'top 60%', end: 'top 30%', scrub: 0.6 }
+                });
+            } else {
+                // On mobile, show everything statically
+                document.querySelectorAll('.fork-label').forEach(function(l) { l.style.opacity = 1; });
+                document.querySelectorAll('.fork-path').forEach(function(p) { p.style.strokeDashoffset = 0; });
+                var tc2 = document.getElementById('threadContinue');
+                if (tc2) tc2.style.height = '18vh';
+            }
+
+            /* ---------- ABSOLUTE WORST-CASE BACKSTOP ---------- */
+            setTimeout(function() {
+                var eb = document.getElementById('eyebrow');
+                if (eb && eb.style.opacity !== '1') { staticFallback(); }
+            }, 4000);
+
+        })();
+    </script>
+
 </body>
 </html>
