@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manisha Tushar — Reception</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+
+<style>
+:root{
+  --obsidian-950:#0A0908;
+  --obsidian-900:#141210;
+  --obsidian-800:#211D19;
+  --bone-50:#F6F2EA;
+  --bronze-500:#9C7A4A;
+  --bronze-300:#C7A876;
+  --oxblood-600:#5C1B22;
+  --steel-400:#8B9096;
+  --fg-dim:rgba(246,242,234,0.68);
+  --ease-marque:cubic-bezier(.19,1,.22,1);
+  --display:'Bodoni Moda','Times New Roman',serif;
+  --sans:'General Sans','Helvetica Neue',sans-serif;
+  --mono:'IBM Plex Mono', monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--obsidian-950);}
+body{background:var(--obsidian-950);color:var(--bone-50);font-family:var(--sans);overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1320px;margin:0 auto;padding:0 32px;position:relative;z-index:3;}
+@media(max-width:640px){.wrap{padding:0 20px;}}
+
+/* ===== Arrival strip — the thread continuing down from the Entrance above ===== */
+.arrival-strip{position:relative;height:14vh;background:linear-gradient(to bottom, var(--obsidian-950), var(--obsidian-900));overflow:hidden;}
+.arrival-strip .thread-in{position:absolute;top:0;bottom:0;left:50%;width:1px;transform:translateX(-50%);
+  background:linear-gradient(to bottom, var(--bronze-300), var(--bronze-500));box-shadow:0 0 12px rgba(199,168,118,.5);}
+
+/* ===== Reception section — a real room, not an abstract backdrop ===== */
+.reception{position:relative;padding:60px 0 180px;overflow:hidden;}
+
+/* Ken-Burns cinematic still: a real Unsplash interior, slowly drifting — the "video" feel
+   without shipping an actual video file, since a static frame with a scroll-driven slow
+   dolly reads as more intentional than an autoplaying background clip. */
+.reception-bg{position:absolute;inset:0;z-index:0;overflow:hidden;}
+.reception-bg img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.25) sepia(.18) saturate(1.3) brightness(.4) contrast(1.08);
+  transform:scale(1.08);will-change:transform;
+}
+.reception-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to bottom, var(--obsidian-950) 0%, rgba(10,9,8,0.55) 18%, rgba(10,9,8,0.72) 60%, var(--obsidian-950) 100%),
+    radial-gradient(55% 45% at 50% 8%, rgba(156,122,74,0.20) 0%, transparent 70%);
+}
+
+.chapter-tag{
+  position:relative;z-index:3;margin-bottom:120px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--bronze-300);
+  display:flex;flex-direction:column;gap:6px;padding-top:40px;
+}
+.chapter-tag span{color:var(--fg-dim);letter-spacing:.04em;text-transform:none;font-size:12px;max-width:260px;}
+
+.reception-grid{display:grid;grid-template-columns:7fr 5fr;gap:64px;align-items:start;}
+@media(max-width:900px){.reception-grid{grid-template-columns:1fr;gap:80px;}.chapter-tag{margin-bottom:60px;}}
+
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--bronze-300);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--bronze-500);}
+
+.reception-headline{
+  font-family:var(--display);font-weight:400;letter-spacing:-0.01em;line-height:1.08;
+  font-size:clamp(34px,5vw,58px);margin-top:22px;max-width:9.5em;
+  text-shadow:0 4px 32px rgba(0,0,0,.5);
+}
+.reception-headline em{font-style:italic;color:var(--bronze-300);}
+
+.reception-lede{font-size:clamp(16px,1.4vw,18px);line-height:1.8;color:var(--fg-dim);max-width:520px;margin-top:26px;}
+.reception-lede strong{color:var(--bone-50);font-weight:500;}
+
+.reception-meta{
+  margin-top:36px;font-family:var(--display);font-style:italic;font-size:19px;color:var(--bone-50);
+  border-left:1px solid var(--bronze-500);padding-left:20px;
+}
+
+/* ===== Diegetic wayfinding directory — real rooms, not icons ===== */
+.reception-directory{position:relative;height:460px;}
+.fork-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.fork-path{fill:none;stroke:var(--bronze-500);stroke-width:.35;stroke-linecap:round;
+  stroke-dasharray:200;stroke-dashoffset:200;vector-effect:non-scaling-stroke;}
+
+.fork-label{
+  position:absolute;transform:translate(-50%,0);text-align:center;opacity:0;
+  display:flex;flex-direction:column;align-items:center;gap:10px;width:104px;
+}
+.fork-label .thumb{
+  width:64px;height:64px;border-radius:50%;overflow:hidden;position:relative;
+  border:1px solid rgba(199,168,118,0.5);box-shadow:0 0 0 4px rgba(10,9,8,0.4), 0 8px 24px rgba(0,0,0,.5);
+}
+.fork-label .thumb img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.35) brightness(.72) saturate(1.15);
+  transition:filter .5s var(--ease-marque), transform .6s var(--ease-marque);
+  transform:scale(1.12);
+}
+.fork-label:hover .thumb img{filter:grayscale(0) brightness(.95) saturate(1.2);transform:scale(1.22);}
+.fork-label .room-name{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-50);}
+.fork-label .room-desc{font-family:var(--sans);font-size:11.5px;color:var(--fg-dim);}
+
+.thread-continue{
+  position:absolute;left:10%;top:100%;width:1px;height:0;
+  background:linear-gradient(to bottom, var(--bronze-500), transparent);
+  transform:translateX(-50%);
+}
+
+@media(max-width:900px){.reception-directory{height:auto;}
+  .fork-svg{display:none;}
+  .reception-directory{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 12px;}
+  .fork-label{position:relative !important;left:auto !important;top:auto !important;transform:none;opacity:1;}
+}
+
+/* ===== Next chapter preview stub ===== */
+.next-preview{
+  position:relative;height:60vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  background:linear-gradient(to bottom, var(--obsidian-950), #171310);
+}
+.next-preview .next-label{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--fg-dim);}
+.next-preview .next-title{font-family:var(--display);font-style:italic;font-size:22px;color:var(--bronze-300);}
+
+.reveal{opacity:0;transform:translateY(24px);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="arrival-strip"><div class="thread-in"></div></div>
+
+<section class="reception" id="reception">
+  <div class="reception-bg" aria-hidden="true">
+    <img id="receptionBg" src="https://images.unsplash.com/photo-1758448093806-88b2089068ab?q=80&w=1800&auto=format&fit=crop" alt="">
+  </div>
+
+  <div class="wrap">
+    <div class="chapter-tag">02 — RECEPTION<span>You're greeted before you're sold anything.</span></div>
+
+    <div class="reception-grid">
+      <div class="reception-copy">
+        <div class="eyebrow reveal">You're Expected</div>
+        <h2 class="reception-headline reveal">A seat, <em>saved</em> for you.</h2>
+        <p class="reception-lede reveal">What began as a single chair in Dadabari is now Kota's most-reviewed atelier — <strong>4.8★</strong> across 521 visits, each one starting right here.</p>
+        <p class="reception-meta reveal">Five rooms wait beyond this one. Where would you like to begin?</p>
+      </div>
+
+      <div class="reception-directory" id="directory">
+        <svg class="fork-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path class="fork-path" id="p0" d="M50,0 Q30,45 10,88"></path>
+          <path class="fork-path" id="p1" d="M50,0 Q40,45 30,88"></path>
+          <path class="fork-path" id="p2" d="M50,0 Q50,45 50,88"></path>
+          <path class="fork-path" id="p3" d="M50,0 Q60,45 70,88"></path>
+          <path class="fork-path" id="p4" d="M50,0 Q70,45 90,88"></path>
+        </svg>
+
+        <div class="fork-label" id="l0" style="left:10%;top:88%;">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=400&auto=format&fit=crop" alt="Hair styling in progress" loading="lazy"></div>
+          <span class="room-name">Hair Studio</span><span class="room-desc">Colour &amp; cut</span>
+          <div class="thread-continue" id="threadContinue"></div>
+        </div>
+        <div class="fork-label" id="l1" style="left:30%;top:88%;">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1673413350047-ea5c0fd58c9e?q=80&w=400&auto=format&fit=crop" alt="Bridal makeup detail" loading="lazy"></div>
+          <span class="room-name">Bridal Room</span><span class="room-desc">HD &amp; airbrush</span>
+        </div>
+        <div class="fork-label" id="l2" style="left:50%;top:88%;">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1571290274554-6a2eaa771e5f?q=80&w=400&auto=format&fit=crop" alt="Nail art detail" loading="lazy"></div>
+          <span class="room-name">Nail Studio</span><span class="room-desc">Art &amp; extensions</span>
+        </div>
+        <div class="fork-label" id="l3" style="left:70%;top:88%;">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1706795033728-9232ef548a16?q=80&w=400&auto=format&fit=crop" alt="Facial spa treatment" loading="lazy"></div>
+          <span class="room-name">Spa</span><span class="room-desc">Skin &amp; touch</span>
+        </div>
+        <div class="fork-label" id="l4" style="left:90%;top:88%;">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1637777269308-6a072f24e8a4?q=80&w=400&auto=format&fit=crop" alt="Academy training floor" loading="lazy"></div>
+          <span class="room-name">Academy</span><span class="room-desc">Admissions open</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="next-preview">
+  <div class="next-label">03 — HAIR STUDIO</div>
+  <div class="next-title">Craft, caught mid-motion.</div>
+</section>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var libsOk = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined');
+
+  function staticFallback(){
+    document.querySelectorAll('.reveal').forEach(function(el){ el.style.opacity = 1; el.style.transform = 'none'; });
+    document.querySelectorAll('.fork-path').forEach(function(p){ p.style.strokeDashoffset = 0; });
+    document.querySelectorAll('.fork-label').forEach(function(l){ l.style.opacity = 1; });
+    var tc = document.getElementById('threadContinue'); if (tc) tc.style.height = '18vh';
+  }
+
+  if (!libsOk){ staticFallback(); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (!reduceMotion && typeof Lenis !== 'undefined'){
+    try{
+      var lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    }catch(e){}
+  }
+
+  if (reduceMotion){ staticFallback(); return; }
+
+  /* ---------- Copy reveals ---------- */
+  gsap.utils.toArray('.reveal').forEach(function(el, i){
+    gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: i * 0.08,
+      scrollTrigger: { trigger: el, start: 'top 85%' } });
+  });
+
+  /* ---------- Thread arriving from hero ---------- */
+  gsap.fromTo('.thread-in', { scaleY: 0 }, { scaleY: 1, transformOrigin: 'top', duration: 1.2, ease: 'power2.out',
+    scrollTrigger: { trigger: '.arrival-strip', start: 'top 90%' } });
+
+  /* ---------- Ken-Burns: the room breathes slowly as you pass through it ---------- */
+  gsap.fromTo('#receptionBg', { scale: 1.08, yPercent: -2 }, { scale: 1.22, yPercent: 2, ease: 'none',
+    scrollTrigger: { trigger: '.reception', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+  /* ---------- The directory: fork lines draw, room photos arrive in sequence ---------- */
+  var paths = gsap.utils.toArray('.fork-path');
+  var labels = gsap.utils.toArray('.fork-label');
+  var isDesktop = window.innerWidth > 900;
+
+  if (isDesktop){
+    ScrollTrigger.create({
+      trigger: '#directory',
+      start: 'top 75%',
+      end: 'top 20%',
+      scrub: 0.6,
+      onUpdate: function(self){
+        var p = self.progress;
+        paths.forEach(function(path, i){
+          var threshold = i * 0.14;
+          var local = Math.max(0, Math.min(1, (p - threshold) / 0.5));
+          path.style.strokeDashoffset = 200 - (200 * local);
+        });
+        labels.forEach(function(label, i){
+          var threshold = i * 0.14 + 0.25;
+          var local = Math.max(0, Math.min(1, (p - threshold) / 0.3));
+          label.style.opacity = local;
+          label.style.transform = 'translate(-50%,' + (10 - local * 10) + 'px)';
+        });
+      }
+    });
+
+    gsap.to('#threadContinue', {
+      height: '18vh', duration: 1,
+      scrollTrigger: { trigger: '#l0', start: 'top 60%', end: 'top 30%', scrub: 0.6 }
+    });
+  } else {
+    staticFallback();
+  }
+
+})();
+</script>
+</body>
+</html>
